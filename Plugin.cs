@@ -27,7 +27,7 @@ namespace TerrariaDeathCounter
         /// <summary>
         /// The author(s) of the plugin.
         /// </summary>
-        public override string Author => "Discoveri";
+        public override string Author => "Discoveri·hufang360";
 
         /// <summary>
         /// A short, one-line, description of the plugin's purpose.
@@ -51,6 +51,8 @@ namespace TerrariaDeathCounter
         public override void Initialize()
         {
             ServerApi.Hooks.NetGetData.Register(this, OnGetData);
+            Commands.ChatCommands.Add(new Command(new List<string>() { "deathcounter" }, ResetCommand, "deathcounter", "dc"));
+            Commands.ChatCommands.Add(new Command(new List<string>() { "" }, WhoKillMe, "whokillme", "wkm"));
         }
 
         protected override void Dispose(bool disposing)
@@ -102,6 +104,64 @@ namespace TerrariaDeathCounter
             return true;
         }
 
+        private void ResetCommand(CommandArgs args)
+        {
+            if (args.Parameters.Count == 0)
+            {
+                ShowHelpText(args);
+                return;
+            }
+
+            switch (args.Parameters[0].ToLowerInvariant())
+            {
+                default:
+                case "help":
+                    ShowHelpText(args);
+                    return;
+
+                case "clear":
+                    deathRecords.ClearDeath();
+                    args.Player.SendSuccessMessage("所有死亡记录都已清除");
+                    return;
+                
+                case "player":
+                    if(args.Parameters.Count<2)
+                    {
+                        args.Player.SendErrorMessage("语法错误，用法：/dc player [player]");
+                        return;
+                    }
+                    args.Player.SendInfoMessage("{0}的死亡记录：{1}",args.Parameters[1], deathRecords.GetRecord(args.Parameters[1]));
+                    // if(password != "")
+                    // {
+                    //     args.Player.SendSuccessMessage("角色：{0}", args.Parameters[1]);
+                    //     args.Player.SendSuccessMessage("密码：{0}", password);
+                    // }
+                    // else
+                    //     args.Player.SendErrorMessage("用户 {0} 未找到！", args.Parameters[1]);
+                    return;
+            }
+        }
+
+        private void WhoKillMe(CommandArgs args)
+        {
+            if(args.Player is TSServerPlayer){
+                args.Player.SendErrorMessage("请在游戏你操作");
+                return;
+            }
+            args.Player.SendInfoMessage("我的死亡记录：{1}",args.Player.Name, deathRecords.GetRecord(args.Player.Name));
+        }
+
+        /// <summary>
+        /// 命令行帮助
+        /// </summary>
+        private void ShowHelpText(CommandArgs args)
+        {
+            args.Player.SendInfoMessage("/dc player [player]，查询玩家的死亡记录");
+            args.Player.SendInfoMessage("/dc clear，清除所有记录");
+            args.Player.SendInfoMessage("/dc = /deathcounter");
+            args.Player.SendInfoMessage("/wkm [killer]，查询玩家的死亡记录");
+        }
+
         private string GetServerMessage(Player player, string killerName, int totalDeathCount)
         {
             StringBuilder message = new StringBuilder();
@@ -126,18 +186,26 @@ namespace TerrariaDeathCounter
             {
                 message.Append(" Don't do that.");
             }
-
             return message.ToString();
         }
 
         private string GetNameOfKiller(Player player, PlayerDeathReason reason)
         {
+            //StringBuilder message = new StringBuilder();
+            //message.Append("NPCIndex:"+ reason._sourceNPCIndex);
+            //message.Append("  ProjectileType:" + reason._sourceProjectileType);
+            //message.Append("  ProjectileIndex:" + reason._sourceProjectileIndex);
+            //message.Append("  PlayerIndex:" + reason._sourcePlayerIndex);
+            //message.Append("  ItemType:" + reason._sourceItemType);
+            //message.Append("  OtherIndex:" + reason._sourceOtherIndex);
+            //TShockAPI.Utils.Instance.Broadcast(message.ToString(), 255, 0, 0);
+
             if (reason._sourceNPCIndex != -1)
             {
                 int NpcId = Main.npc[reason._sourceNPCIndex].netID;
                 return Lang.GetNPCNameValue(NpcId);
             }
-            else if (reason.SourceProjectileType != 0)
+            else if (reason._sourceProjectileType != 0)
             {
                 return Lang.GetProjectileName(reason._sourceProjectileType).Value;
             }
@@ -157,6 +225,7 @@ namespace TerrariaDeathCounter
             {
                 return "Unknown Killer?!";
             }
+
         }
 
         private string GetOtherKiller(int sourceOtherIndex)
@@ -164,22 +233,22 @@ namespace TerrariaDeathCounter
             // Reference: Sources Lang.cs CreateDeathMessage
             var strangeDeathReasons = new List<string>()
             {
-                "deadly fall",
-                "deadly water source",
-                "overly-hot water source",
-                "strange something",
-                "slayer event",
-                "Medusa attack",
-                "sharp object",
-                "no-air adventure",
-                "heat source",
-                "green damage source",
-                "electric source",
-                "failed Wall of Flesh escape",
-                "strange something",
-                "teleportation overdose",
-                "teleportation overdose",
-                "teleportation overdose",
+                "高空蹦迪", //"deadly fall",
+                "致命的水源", //"deadly water source",
+                "熔岩游泳", //"overly-hot water source",
+                "尖刺", //"strange something",
+                "杀人事件", //"slayer event",
+                "美杜莎", //"Medusa attack",
+                "锋利的东西", //"sharp object",
+                "空中冒险", //"no-air adventure",
+                "热源", //"heat source",
+                "绿色破坏源", //"green damage source",
+                "电源", //"electric source",
+                "血肉墙逃跑失败", //"failed Wall of Flesh escape",
+                "奇怪的东西", //"strange something",
+                "隐形传药水过量", //"teleportation overdose",
+                "隐形传药水过量", //"teleportation overdose",
+                "隐形传药水过量", //"teleportation overdose",
             };
 
             if (sourceOtherIndex >= 0 && sourceOtherIndex < strangeDeathReasons.Count)
@@ -187,7 +256,8 @@ namespace TerrariaDeathCounter
                 return strangeDeathReasons[sourceOtherIndex];
             }
 
-            return "very strange something";
+            //return "very strange something";
+            return "非常奇怪的东西";
         }
     }
 }

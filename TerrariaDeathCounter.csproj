@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -64,9 +65,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>echo 正在拷贝dll到指定文件夹
-copy /y "T:\TShock\TerrariaDeathCounter\bin\Debug\TerrariaDeathCounter.dll" "T:\TShock\1412\TShock4.4.0_Pre15_Terraria1.4.1.2\ServerPlugins\TerrariaDeathCounter.dll"
-copy /y "T:\TShock\TerrariaDeathCounter\bin\Debug\TerrariaDeathCounter.dll" "T:\TShock\plugin\TerrariaDeathCounter.dll"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -75,6 +75,24 @@ namespace TerrariaDeathCounter
 
             return ledger.records[playerName].deathCounts[killerName];
         }
+
+        public string GetRecord(string playerName)
+        {
+            string record = "";
+            DeathRecord playerRecord = ledger.records[playerName];
+            foreach(string key in playerRecord.deathCounts.Keys){
+                record += key+" " + playerRecord.deathCounts[key] + ", ";
+            }
+            
+            return record;
+        }
+
+        public void ClearDeath()
+        {
+            ledger.records = new Dictionary<string, DeathRecord>();
+            File.WriteAllText(filename, JsonConvert.SerializeObject(ledger, Formatting.Indented));
+        }
+
     }
 
     class DeathLedger
