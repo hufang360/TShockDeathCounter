@@ -9,10 +9,10 @@ using TerrariaApi.Server;
 using Newtonsoft.Json;
 using TShockAPI;
 
-namespace TerrariaDeathCounter
+namespace DeathCounter
 {
     [ApiVersion(2, 1)]
-    public class TerrariaDeathCounterPlugin : TerrariaPlugin
+    public class DeathCounterPlugin : TerrariaPlugin
     {
         /// <summary>
         /// The name of the plugin.
@@ -27,7 +27,7 @@ namespace TerrariaDeathCounter
         /// <summary>
         /// The author(s) of the plugin.
         /// </summary>
-        public override string Author => "Discoveri·hufang360";
+        public override string Author => "Discoveri & hufang360";
 
         /// <summary>
         /// A short, one-line, description of the plugin's purpose.
@@ -40,7 +40,7 @@ namespace TerrariaDeathCounter
         //private static string logFilename = Path.Combine(TShock.SavePath, "DeathOutput.log");
         //private static ILogWriter logWriter = new ServerLogWriter(logFilename);
 
-        public TerrariaDeathCounterPlugin(Main game) : base(game)
+        public DeathCounterPlugin(Main game) : base(game)
         {
 
         }
@@ -234,21 +234,21 @@ namespace TerrariaDeathCounter
             var strangeDeathReasons = new List<string>()
             {
                 "高空蹦迪", //"deadly fall",
-                "致命的水源", //"deadly water source",
+                "溺水", //"deadly water source",
                 "熔岩游泳", //"overly-hot water source",
                 "尖刺", //"strange something",
                 "杀人事件", //"slayer event",
                 "美杜莎", //"Medusa attack",
-                "锋利的东西", //"sharp object",
+                "尖刺", //"sharp object",
                 "空中冒险", //"no-air adventure",
                 "热源", //"heat source",
-                "绿色破坏源", //"green damage source",
+                "中毒", //"green damage source",
                 "电源", //"electric source",
                 "血肉墙逃跑失败", //"failed Wall of Flesh escape",
                 "奇怪的东西", //"strange something",
-                "隐形传药水过量", //"teleportation overdose",
-                "隐形传药水过量", //"teleportation overdose",
-                "隐形传药水过量", //"teleportation overdose",
+                "混沌传送仗", //"teleportation overdose",
+                "混沌传送仗", //"teleportation overdose",
+                "混沌传送仗", //"teleportation overdose",
             };
 
             if (sourceOtherIndex >= 0 && sourceOtherIndex < strangeDeathReasons.Count)

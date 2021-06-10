@@ -1,4 +1,4 @@
-﻿namespace TerrariaDeathCounter
+﻿namespace DeathCounter
 {
     interface IDeathRepository
     {

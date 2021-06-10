@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
-using Newtonsoft.Json.Converters;
 
-namespace TerrariaDeathCounter
+namespace DeathCounter
 {
     class JsonDeathRepository : IDeathRepository
     {
