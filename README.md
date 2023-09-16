@@ -20,7 +20,7 @@
 
 
 ## 如何使用
-下载 [TerrariaDeathCounter.dll](https://github.com/hufang360/TerrariaDeathCounter/releases) 并拷贝到 TShock 的 ServerPlugins 目录。
+下载 [TerrariaDeathCounter.dll](https://github.com/hufang360/TShockDeathCounter/releases/download/20210310/TerrariaDeathCounter.dll) 并拷贝到 TShock 的 ServerPlugins 目录。
 
 
 # Fork改动
